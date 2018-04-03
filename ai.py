@@ -67,61 +67,69 @@ def mat_out(mat):
         sys.stdout.write('\n')
     sys.stdout.write('\n')
 
-w, l, gg = 0, 0, GameGrid()
-f = open('stat.txt', 'a')
+def ai(_N, _M):
+    global N
+    global M
+    N, M = int(_N), int(_M)
+    w, l, gg = 0, 0, GameGrid()
+    f = open('stat.txt', 'a')
 
-ok = True
+    ok = True
 
-while True:
-    gs = game_state(gg.matrix)
-    tg1, tg2, tg3, tg4 = copy.copy(gg), copy.copy(gg), copy.copy(gg), copy.copy(gg)
-    #print 'Status 1'
-    tg1.ifai(KEY_UP)
-    tg2.ifai(KEY_DOWN)
-    tg3.ifai(KEY_LEFT)
-    tg4.ifai(KEY_RIGHT)
-    #print 'Status 2'
-    t1, t2, t3, t4 = test_N(tg1), test_N(tg2), test_N(tg3), test_N(tg4)
-    #print 'Status 3'
-    if t1 > t2 and t1 > t3 and t1 > t4 and gg.matrix != tg1.matrix : # UP
-        gg.ifai(KEY_UP)
-    elif t2 > t3 and t2 > t4 and gg.matrix != tg2.matrix : # DOWN
-        gg.ifai(KEY_DOWN)
-    elif t3 > t4 and gg.matrix != tg3.matrix : # LEFT
-        gg.ifai(KEY_LEFT)
-    elif gg.matrix != tg4.matrix : # RIGHT
-        gg.ifai(KEY_RIGHT)
-    else :
-        if t1 > t2 and t1 > t3 and gg.matrix != tg1.matrix : # UP
+    while True:
+        gs = game_state(gg.matrix)
+        tg1, tg2, tg3, tg4 = copy.copy(gg), copy.copy(gg), copy.copy(gg), copy.copy(gg)
+        #print 'Status 1'
+        tg1.ifai(KEY_UP)
+        tg2.ifai(KEY_DOWN)
+        tg3.ifai(KEY_LEFT)
+        tg4.ifai(KEY_RIGHT)
+        #print 'Status 2'
+        t1, t2, t3, t4 = test_N(tg1), test_N(tg2), test_N(tg3), test_N(tg4)
+        #print 'Status 3'
+        if t1 > t2 and t1 > t3 and t1 > t4 and gg.matrix != tg1.matrix : # UP
             gg.ifai(KEY_UP)
-        elif t2 > t3  and gg.matrix != tg2.matrix : # DOWN
+        elif t2 > t3 and t2 > t4 and gg.matrix != tg2.matrix : # DOWN
             gg.ifai(KEY_DOWN)
-        elif gg.matrix != tg3.matrix : # LEFT
+        elif t3 > t4 and gg.matrix != tg3.matrix : # LEFT
             gg.ifai(KEY_LEFT)
-        else:
-            if t1 > t2 and gg.matrix != tg1.matrix : # UP
+        elif gg.matrix != tg4.matrix : # RIGHT
+            gg.ifai(KEY_RIGHT)
+        else :
+            if t1 > t2 and t1 > t3 and gg.matrix != tg1.matrix : # UP
                 gg.ifai(KEY_UP)
-            elif gg.matrix != tg2.matrix : # DOWN
+            elif t2 > t3  and gg.matrix != tg2.matrix : # DOWN
                 gg.ifai(KEY_DOWN)
-            else :
-                if gg.matrix != tg1.matrix : # UP
+            elif gg.matrix != tg3.matrix : # LEFT
+                gg.ifai(KEY_LEFT)
+            else:
+                if t1 > t2 and gg.matrix != tg1.matrix : # UP
                     gg.ifai(KEY_UP)
-                else:
-                    gs = 'lose'
-    #print 'Status 4'
-    mat_out(gg.matrix)
-    gg.update_grid_cells()
-    #print 'Status 5'
-    if ok :
-        if gs == 'win':
-            print("You Win!")
-            ok = False
-            f.write('1')
-            s = raw_input()
-    if gs == 'lose':
-        print("You Lose!")
-        f.write('0')
-        break
+                elif gg.matrix != tg2.matrix : # DOWN
+                    gg.ifai(KEY_DOWN)
+                else :
+                    if gg.matrix != tg1.matrix : # UP
+                        gg.ifai(KEY_UP)
+                    else:
+                        gs = 'lose'
+        #print 'Status 4'
+        #mat_out(gg.matrix)
+        gg.update_grid_cells()
+        #print 'Status 5'
+        if ok :
+            if gs == 'win':
+                gg.quit()
+                return 1
+                print("You Win!")
+                ok = False
+                f.write('1')
+                s = raw_input()
+        if gs == 'lose':
+            gg.quit()
+            return 0
+            print("You Lose!")
+            f.write('0')
+            break
 
-gg.update_grid_cells()
-mat_out(gg.matrix)
+    gg.update_grid_cells()
+    mat_out(gg.matrix)

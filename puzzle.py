@@ -27,6 +27,9 @@ KEY_LEFT = "'a'"
 KEY_RIGHT = "'d'"
 
 class GameGrid(Frame):
+    def quit(self):
+        self.destroy()
+
     def __init__(self):
         Frame.__init__(self)
 
@@ -129,4 +132,3 @@ class GameGrid(Frame):
                     self.grid_cells[1][1].configure(text="You",bg=BACKGROUND_COLOR_CELL_EMPTY)
                     self.grid_cells[1][2].configure(text="Lose!",bg=BACKGROUND_COLOR_CELL_EMPTY)
 """
-
