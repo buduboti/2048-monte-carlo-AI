@@ -2,7 +2,6 @@ from tkinter import *
 from puzzle import *
 from random import randint
 from threading import Thread
-from timeout import timeout
 import copy
 
 N, M = 100, 10
@@ -25,7 +24,6 @@ def V(t):
                 m = t[i][j]
     return m/e
 """
-@timeout(5)
 def test(gg):
     for j in range(M):
         i = randint(0, 3)
@@ -118,15 +116,17 @@ def ai(_N, _M):
         #print 'Status 5'
         if ok :
             if gs == 'win':
+                e = gg.max()
                 gg.quit()
-                return 1
+                return e
                 print("You Win!")
                 ok = False
                 f.write('1')
                 s = raw_input()
         if gs == 'lose':
+            e = gg.max()
             gg.quit()
-            return 0
+            return e
             print("You Lose!")
             f.write('0')
             break

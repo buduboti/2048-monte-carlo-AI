@@ -30,6 +30,14 @@ class GameGrid(Frame):
     def quit(self):
         self.destroy()
 
+    def max(self):
+        e = 0
+        for i in range(len(self.matrix)):
+            for j in range(len(self.matrix)):
+                if self.matrix[i][j] > e:
+                    e = self.matrix[i][j]
+        return e
+
     def __init__(self):
         Frame.__init__(self)
 
